@@ -14,6 +14,11 @@
             .ui-datatable .ui-datatable-data tr.ui-widget-content:hover {
                 background-color: #f0f0f0; /* Color de fondo al pasar el mouse */
                 color: #000000; /* Color del texto al pasar el mouse */
+                text-align: right;
+            }
+            .ui-datatable .ui-datatable-data tr.ui-widget-content {
+
+                text-align: right;
             }
             .ui-state-hover {
                 background-color: #f0f0f0 !important; /* Color de fondo al pasar el mouse */
@@ -47,7 +52,7 @@
                               value="#{clienteConsultaController.clienteModel.clientes}"
                              selection="#{clienteConsultaController.clienteModel.seleccionadoCliente}"
                              emptyMessage="No hay clientes afiliados/desafiliados"
-                             style="width: 100%; table-layout: auto; font-size: 12px;">
+                             style="width: 100%; font-size: 10px;">
 
                     <f:facet name="header">
                         <div class="products-table-header">
@@ -62,26 +67,26 @@
                         <h:outputText value="#{cliente.dni}"/>
                     </p:column>
 
-                    <p:column headerText="Nombre" sortBy="#{cliente.nombre}" >
+                    <p:column headerText="Nombre"   >
 
                         <h:outputText value="#{cliente.nombre}"/>
                     </p:column>
 
-                    <p:column headerText="Apellidos" sortBy="#{cliente.apellidos}"  >
+                    <p:column headerText="Apellidos"   >
 
                         <h:outputText value="#{cliente.apellidos}"/>
                     </p:column>
 
-                    <p:column headerText="Dirección" sortBy="#{cliente.direccion}" >
+                    <p:column headerText="Dirección"   >
 
                         <h:outputText value="#{cliente.direccion}"/>
                     </p:column>
 
-                    <p:column headerText="Teléfono" sortBy="#{cliente.telefono}"  >
+                    <p:column headerText="Teléfono"    >
 
                         <h:outputText value="#{cliente.telefono}"/>
                     </p:column>
-                    <p:column headerText="Correo" sortBy="#{cliente.correo}" >
+                    <p:column headerText="Correo"  >
                         <h:outputText value="#{cliente.correo}"/>
                     </p:column>
 

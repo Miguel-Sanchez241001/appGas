@@ -20,7 +20,6 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        logger.info("[SecurityFilter] - Inicializando filtro de seguridad");
     }
 
     @Override
@@ -30,23 +29,39 @@ public class SecurityFilter implements Filter {
 
         String requestedPath = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
 
-
-        // Excluir páginas públicas y recursos estáticos
-        if (requestedPath.equals("/index.xhtml") || requestedPath.startsWith("/resources/") || requestedPath.contains("javax.faces.resource")) {
+        // Excluir páginas públicas y recursos estáticos (resources y jakarta.faces.resource)
+        if (requestedPath.startsWith("/resources/") || requestedPath.contains("jakarta.faces.resource")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        if (usuario.getUsername() == null) {
-            logger.warn("[SecurityFilter] - Usuario no autenticado, redirigiendo al login");
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/index.xhtml");
+        // Si la ruta es /index.xhtml
+        if (requestedPath.equals("/index.xhtml") || requestedPath.equals("/")  ) {
+            // Verificar si el usuario ya está autenticado
+            if (usuario != null && usuario.getUsername() != null) {
+                // Redirigir a principal.xhtml si ya está autenticado
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "/principal.xhtml");
+                return;
+            }
+            // Si no está autenticado, permitir el acceso a index.xhtml
+            filterChain.doFilter(request, response);
             return;
         }
 
-        //logger.info("[SecurityFilter] - Usuario autenticado: {}", usuario.getUsername());
+        // Para cualquier otra ruta que contenga .xhtml
+        if (requestedPath.endsWith(".xhtml")) {
+            // Verificar si el usuario está autenticado
+            if (usuario == null || usuario.getUsername() == null) {
+                logger.warn("[SecurityFilter] - Usuario no autenticado, redirigiendo al login");
+                httpResponse.sendRedirect(httpRequest.getContextPath() + "/index.xhtml");
+                return;
+            }
+        }
 
+        // Continuar con el filtro si todo es correcto
         filterChain.doFilter(request, response);
     }
+
 
     @Override
     public void destroy() {

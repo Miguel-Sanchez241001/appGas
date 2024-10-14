@@ -1,4 +1,4 @@
-package pe.com.app.appgaspedidos.view.tranversal;
+package pe.com.app.appgaspedidos.tranversal;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import org.primefaces.PrimeFaces;

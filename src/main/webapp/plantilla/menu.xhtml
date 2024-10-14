@@ -23,7 +23,7 @@
 
 			<!-- Botón para Solicitudes -->
 			<p:commandButton value="Solicitudes" styleClass="#{seguridadController.estaSeleccionado('/desafiliarServicio.xhtml')? 'activo':''}"
-							 action="#{seguridadController.redireccionar('/operaciones/desafiliarServicio.xhtml')}"
+							 action="/solicitudesOperacion.xhtml?faces-redirect=true"
 							 update="@form"
 							 rendered="#{seguridadController.renderizar('ACCESO_operaciones_DESAFILIAR_SERVICIO')}" />
 
@@ -43,7 +43,7 @@
 
 			<!-- Botón para Solicitudes Registradas -->
 			<p:commandButton value="Solicitudes Registradas" styleClass="#{seguridadController.estaSeleccionado('/consultarRepresentante.xhtml')? 'activo':''}"
-							 action="#{seguridadController.redireccionar('/consulta/consultarRepresentante.xhtml')}"
+							 action="/solicitudesConsulta.xhtml?faces-redirect=true"
 							 update="@form"
 							 rendered="#{seguridadController.renderizar('ACCESO_CONSULTA_REPRESENTANTES')}" />
 			<p:commandButton value="Clientes Registrados" styleClass="#{seguridadController.estaSeleccionado('/actualizarRepresentante.xhtml')? 'activo':''}"
