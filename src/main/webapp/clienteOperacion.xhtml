@@ -1,0 +1,153 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/plantilla/plantilla.xhtml">
+
+    <ui:define name="metadata"/>
+    <ui:define name="content">
+
+
+
+        <h2>Registro de Cliente</h2>
+
+        <style>
+            .label {
+                width: 20%;
+                padding: 4px;
+            }
+
+            .value {
+                width: 80%;
+                padding: 4px;
+            }
+
+            .grid {
+                width: 100%;
+            }
+
+            .error {
+                color: red;
+            }
+
+            .outputLabel {
+                font-weight: bold;
+            }
+
+            .grid {
+                width: 33%;
+                padding: 4px;
+            }
+        </style>
+
+        <div class="card">
+            <h:form id="formRegistroCliente">
+
+
+
+                <p:wizard flowListener="#{clienteController.onFlowProcess}" nextLabel="Siguiente" backLabel="Atrás"
+                          widgetVar="wizardWidget"  disabled="#{clienteController.clienteModel.existeDni}">
+                    <p:tab id="personal" title="Personal">
+                        <p:panel header="Detalles Personales">
+
+                            <h:panelGrid columns="2" columnClasses="label, value" style="width: 70%; text-align: left;">
+                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="dni" value="DNI:  "/>
+                                 <p:inputMask id="dni" mask="99999999" value="#{clienteController.clienteModel.dni}" required="true"
+                                             validatorMessage="El DNI debe tener 8 dígitos">
+
+
+                                    <p:ajax event="blur" listener="#{clienteController.verificarDni}" update="messages, nextBtn"/>
+
+                                </p:inputMask>
+
+                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="nombre" value="Nombre:  "/>
+                                <p:inputText id="nombre" value="#{clienteController.clienteModel.nombre}" required="true" label="Nombre"
+                                             validatorMessage="El nombre es requerido"/>
+
+                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="apellidos" value="Apellidos: "/>
+                                <p:inputText id="apellidos" value="#{clienteController.clienteModel.apellidos}" required="true" label="Apellidos"
+                                             validatorMessage="Los apellidos son requeridos"/>
+
+                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="correo" value="Correo Electrónico:  "/>
+
+                                <p:inputText id="correo" value="#{clienteController.clienteModel.correo}" required="true" label="Correo"
+                                             validatorMessage="Correo no válido">
+                                    <f:validateRegex pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+                                </p:inputText>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab id="address" title="Dirección y Contacto">
+                        <p:panel header="Detalles de Dirección">
+
+                            <h:panelGrid columns="2" columnClasses="label, value" style="width: 70%; text-align: left;" >
+                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="direccion" value="Dirección: "/>
+                                <p:inputText id="direccion" value="#{clienteController.clienteModel.direccion}" required="true"
+                                             label="Dirección" validatorMessage="La dirección es requerida"/>
+                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="telefono" value="Teléfono: "/>
+                                <p:inputMask id="telefono" mask="999999999" value="#{clienteController.clienteModel.telefono}" required="true"
+                                             validatorMessage="El teléfono debe tener 9 dígitos y comenzar con 9">
+                                    <f:validateRegex pattern="9[0-9]{8}" />
+                                </p:inputMask>
+                            </h:panelGrid>
+                        </p:panel>
+                    </p:tab>
+
+                    <p:tab id="confirm" title="Confirmación">
+                        <p:panel header="Confirmación">
+                            <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
+                                <h:panelGrid columns="2" columnClasses="label, value">
+                                    <h:outputText value="Nombre: "/>
+                                    <h:outputText value="#{clienteController.clienteModel.nombre}" styleClass="outputLabel"/>
+
+                                    <h:outputText value="Apellidos: "/>
+                                    <h:outputText value="#{clienteController.clienteModel.apellidos}" styleClass="outputLabel"/>
+
+                                    <h:outputText value="DNI: "/>
+                                    <h:outputText value="#{clienteController.clienteModel.dni}" styleClass="outputLabel"/>
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="2" columnClasses="label, value">
+                                    <h:outputText value="Dirección: "/>
+                                    <h:outputText value="#{clienteController.clienteModel.direccion}" styleClass="outputLabel"/>
+
+                                    <h:outputText value="Teléfono: "/>
+                                    <h:outputText value="#{clienteController.clienteModel.telefono}" styleClass="outputLabel"/>
+                                    <h:outputText value="Correo Electrónico: "/>
+                                    <h:outputText value="#{clienteController.clienteModel.correo}" styleClass="outputLabel"/>
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+
+                            <p:commandButton  id="nextBtnCliente"
+                                    value="Registrar"
+                                              disabled="#{clienteController.clienteModel.existeDni}"
+                                             action="#{clienteController.registrarCliente()}"
+                                             update="messages"
+                                             process="@this"/>
+                        </p:panel>
+                    </p:tab>
+                </p:wizard>
+                <div class="dashed"></div>
+                <div class="nota">
+                    <span>NOTA : * DATOS OBLIGATORIOS</span>
+                </div>
+                <p:messages id="messages" showDetail="false" closable="true">
+                    <p:autoUpdate/>
+                </p:messages>
+
+            </h:form>
+        </div>
+
+
+
+
+
+
+
+    </ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/plantilla/plantilla.xhtml">
+
+    <ui:define name="metadata"/>
+    <ui:define name="content">
+
+        <h2>Acceso Denegado</h2>
+
+        <div class="card">
+            <p:messages autoUpdate="true" closable="true" />
+
+            <p:dialog header="Acceso Denegado" visible="true" modal="true" closable="false" width="400">
+                <h:panelGrid columns="1" style="text-align: center;">
+                    <h:outputText value="No tiene permisos suficientes para acceder a esta página."/>
+                    <h:outputText value="Detalle del error:" style="font-weight: bold; margin-top: 10px;"/>
+                    <h:outputText value="#{requestScope['jakarta.servlet.error.message']}" style="color:red;"/>
+
+                    <p:spacer height="20"/>
+
+                    <h:form>
+                        <p:commandButton value="Volver al inicio" action="index.xhtml?faces-redirect=true" />
+                    </h:form>
+                </h:panelGrid>
+            </p:dialog>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

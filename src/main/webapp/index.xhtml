@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+<h:head>
+    <title>#{loginController.loginModel.nombreSistema}</title>
+    <!-- <link type="text/css" rel="stylesheet" href="resources/css/style.css" /> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta http-equiv="Content-Language" content="es" />
+    <meta name="robots" content="index,follow" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta http-equiv="expires" content="0" />
+    <!--  <meta http-equiv="refresh" content="15" /> -->
+
+    <link rel="shortcut icon" type="image/x-icon" href="#{request.contextPath}/resources/img/favicon.ico" />
+    <link rel="stylesheet" type="text/css"  href="resources/css/resetearcss.css" />
+    <link rel="stylesheet" type="text/css" href="resources/css/tipografias.css" />
+
+    <link rel="stylesheet" type="text/css"  href="resources/css/mejoras-login.css" />
+
+</h:head>
+<h:body class="body-bg">
+    <div class="cabecera sombra-inferior">
+        <div class="cabecera-izq">
+            <table>
+                <tr>
+                    <td>
+                        <div class="sistema">
+                            <span class="texto-sistema-1">
+                                #{ loginModel.nombreSistema}
+                            </span>
+                            <span class="texto-sistema-2">
+                                #{ loginModel.abreviaturaSistema}
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="modulo">
+                            <span class="texto-modulo-1"> - Administrativo</span>
+                            <span class="texto-modulo-2"> - adm</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="cabecera-der">
+            <h1 class="texto-empresa">#{ loginModel.nombreEmpresa}</h1>
+            <img src="#{request.contextPath}/resources/img/logo_empresa.png" alt=""></img>
+        </div>
+    </div>
+
+
+
+    <p:panel styleClass="formulario-login sombra-inferior">
+        <h2 style="">INICIAR SESI&Oacute;N</h2>
+        <h:form   name="loginForm" id="loginForm" prependId="false">
+            <h:panelGrid style="width:80%;margin:auto;text-align:center;">
+                    <!-- Campo de nombre de usuario -->
+            <h:panelGrid style="margin:auto;">
+                    <p:outputLabel for="username" value="Nombre de usuario: " />
+                    <p:inputText id="username" value="#{loginController.username}"  styleClass="loginInput" required="true" requiredMessage="El nombre de usuario es obligatorio." />
+
+                    <!-- Campo de contraseña -->
+                    <p:outputLabel for="password" value="Contraseña: " />
+                    <p:password id="password" value="#{loginController.password}" feedback="false" required="true"  styleClass="loginInput" requiredMessage="La contraseña es obligatoria." />
+            </h:panelGrid>
+                    <!-- Botón de login -->
+
+
+                    <!-- Mostrar mensajes de error -->
+                    <p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+                <div class="dashed"></div>
+                <p:commandButton value="Iniciar sesión" action="#{loginController.login()}" update="@form" />
+            </h:panelGrid>
+        </h:form>
+
+    </p:panel>
+
+<div class="pie-pagina">
+    #{ loginModel.nombreEmpresa}, Lima - Per&uacute;. &copy; 2024 Todos los derechos reservados
+</div>
+
+<p:ajaxStatus onstart="PF('statusDialog').show()"
+              onsuccess="PF('statusDialog').hide()" />
+
+<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+          position="center" closable="false" resizable="false"
+          showHeader="false" onShow="statusDialog.initPosition()">
+
+    <p:outputLabel value="Cargando.." style="font-size:12px" />
+    <br />
+
+    <p:graphicImage name="/img/ajaxloadingbar.gif" />
+</p:dialog>
+</h:body>
+</html>

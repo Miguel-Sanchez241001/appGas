@@ -1,0 +1,177 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/plantilla/plantilla.xhtml">
+
+    <ui:define name="metadata"/>
+    <ui:define name="content">
+
+        <h2>Registro de Cliente</h2>
+        <h:outputStylesheet>
+            /* Cambia el color de la fila cuando se pasa el mouse */
+            .ui-datatable .ui-datatable-data tr.ui-widget-content:hover {
+                background-color: #f0f0f0; /* Color de fondo al pasar el mouse */
+                color: #000000; /* Color del texto al pasar el mouse */
+            }
+            .ui-state-hover {
+                background-color: #f0f0f0 !important; /* Color de fondo al pasar el mouse */
+                color: #000000 !important;
+            }
+        </h:outputStylesheet>
+
+
+        <h:form id="formConsultaCliente">
+            <div class="card">
+
+                <div class="flex justify-content-between">
+
+                    <div>
+                        <p:commandButton value="XLSX"  icon="pi pi-upload" styleClass="ui-button-help"  >
+                            <p:dataExporter type="xlsxstream" target="tablaCliente" fileName="Clientes" visibleOnly="true"/>
+                        </p:commandButton>
+                    </div>
+
+                </div>
+
+                <p:dataTable id="tablaCliente"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             rows="5"
+                             var="cliente"
+                             rowKey="#{cliente.id}"
+                             rendered="true"
+                             widgetVar="dtClientes"
+                             electionMode="single"
+                              value="#{clienteConsultaController.clienteModel.clientes}"
+                             selection="#{clienteConsultaController.clienteModel.seleccionadoCliente}"
+                             emptyMessage="No hay clientes afiliados/desafiliados"
+                             style="width: 100%; table-layout: auto; font-size: 12px;">
+
+                    <f:facet name="header">
+                        <div class="products-table-header">
+                            <span style="font-weight: bold">Clientes</span>
+                            <span class="filter-container ui-input-icon-left"> <i class="pi pi-search" style="color: black;"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtClientes').filter()" placeholder="Search" />
+                    </span>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="DNI" sortBy="#{cliente.dni}"    >
+                        <h:outputText value="#{cliente.dni}"/>
+                    </p:column>
+
+                    <p:column headerText="Nombre" sortBy="#{cliente.nombre}" >
+
+                        <h:outputText value="#{cliente.nombre}"/>
+                    </p:column>
+
+                    <p:column headerText="Apellidos" sortBy="#{cliente.apellidos}"  >
+
+                        <h:outputText value="#{cliente.apellidos}"/>
+                    </p:column>
+
+                    <p:column headerText="Dirección" sortBy="#{cliente.direccion}" >
+
+                        <h:outputText value="#{cliente.direccion}"/>
+                    </p:column>
+
+                    <p:column headerText="Teléfono" sortBy="#{cliente.telefono}"  >
+
+                        <h:outputText value="#{cliente.telefono}"/>
+                    </p:column>
+                    <p:column headerText="Correo" sortBy="#{cliente.correo}" >
+                        <h:outputText value="#{cliente.correo}"/>
+                    </p:column>
+
+                    <p:column exportable="false" ariaHeaderText="Actions">
+                        <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-cliente-content"
+                                         oncomplete="PF('manageClienteDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+
+                            <f:setPropertyActionListener value="#{cliente}" target="#{clienteConsultaController.clienteModel.seleccionadoCliente}" />
+                            <p:resetInput target=":dialogs:manage-cliente-content" />
+
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+
+            </div>
+            <p:messages id="messages" showDetail="false" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+
+
+        </h:form>
+
+
+
+        <h:form id="dialogs">
+            <p:dialog header="Cliente Detalle" showEffect="fade" modal="true" widgetVar="manageClienteDialog"
+                      responsive="true">
+                <p:outputPanel id="manage-cliente-content" class="ui-fluid">
+                <p:outputPanel rendered="#{not empty clienteConsultaController.clienteModel.seleccionadoCliente}">
+
+                    <div class="field">
+                        <p:outputLabel for="nombre" value="Nombre" />
+                        <p:inputText id="nombre" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.nombre}" required="true" />
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="apellidos" value="Apellidos" />
+                        <p:inputText id="apellidos" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.apellidos}" required="true" />
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="dni" value="DNI" />
+                        <p:inputText id="dni" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.dni}" maxlength="8" required="true" />
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="direccion" value="Dirección" />
+                        <p:inputTextarea id="direccion" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.direccion}" />
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="telefono" value="Teléfono" />
+                        <p:inputText id="telefono" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.telefono}" maxlength="9" />
+                    </div>
+
+                    <div class="field">
+                        <p:outputLabel for="correo" value="Correo Electrónico" />
+                        <p:inputText id="correo" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.correo}" required="true" />
+                    </div>
+                </p:outputPanel>
+                </p:outputPanel>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Actualizar" icon="pi pi-check" actionListener="#{clienteConsultaController.guardarCLiente}"
+                                     update="manage-cliente-content" process="manage-cliente-content @this" />
+                    <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('manageClienteDialog').hide()"
+                                     class="ui-button-secondary" type="button" />
+                </f:facet>
+            </p:dialog>
+
+
+
+            <p:confirmDialog global="true" showEffect="fade" width="300">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                 icon="pi pi-times" />
+            </p:confirmDialog>
+        </h:form>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </ui:define>
+
+</ui:composition>
+
