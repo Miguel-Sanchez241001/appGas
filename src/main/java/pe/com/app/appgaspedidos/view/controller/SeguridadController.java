@@ -69,9 +69,12 @@ public class SeguridadController implements Serializable {
         return url.toString().contains(pagina);
     }
 
-    public boolean renderizar(String valor) {
- 
-                return true;
+    public boolean renderizar(String args) {
+        if (hasRole("ADMIN")){
+            return true;
+        }
+            return hasRole(args);
+
 
     }
 

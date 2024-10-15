@@ -22,6 +22,7 @@ public class ClienteModel {
     private String correo;
     private boolean existeDni;
     private List<Cliente> clientes ;
+    private List<Cliente> clientesFiltrados ;
     private  Cliente  seleccionadoCliente ;
 
 }

@@ -15,7 +15,7 @@
 
 			<!-- Panel para Operaciones -->
 			<h:panelGrid style="width:100%;"
-						 rendered="#{seguridadController.renderizar('ACCESO_operaciones')}">
+						 rendered="#{seguridadController.renderizar('OPERADOR')}">
 				<div class="menu-header">
 					<span>Operaciones</span>
 				</div>
@@ -25,17 +25,17 @@
 			<p:commandButton value="Solicitudes" styleClass="#{seguridadController.estaSeleccionado('/desafiliarServicio.xhtml')? 'activo':''}"
 							 action="/solicitudesOperacion.xhtml?faces-redirect=true"
 							 update="@form"
-							 rendered="#{seguridadController.renderizar('ACCESO_operaciones_DESAFILIAR_SERVICIO')}" />
+							 rendered="#{seguridadController.renderizar('OPERADOR')}" />
 
 			<!-- Botón para Clientes -->
 			<p:commandButton value="Clientes" styleClass="#{seguridadController.estaSeleccionado('/actualizarRepresentante.xhtml')? 'activo':''}"
 							 action="/clienteOperacion.xhtml?faces-redirect=true"
  							 update="@form"
-							 rendered="#{seguridadController.renderizar('ACCESO_operaciones_ACTUALIZAR_REPRESENTANTE')}" />
+							 rendered="#{seguridadController.renderizar('OPERADOR')}" />
 
 			<!-- Panel para Consultas -->
 			<h:panelGrid style="width:100%;"
-						 rendered="#{seguridadController.renderizar('ACCESO_CONSULTA')}">
+						 rendered="#{seguridadController.renderizar('CONSULTOR')}">
 				<div class="menu-header">
 					<span>Consultas</span>
 				</div>
@@ -45,11 +45,11 @@
 			<p:commandButton value="Solicitudes Registradas" styleClass="#{seguridadController.estaSeleccionado('/consultarRepresentante.xhtml')? 'activo':''}"
 							 action="/solicitudesConsulta.xhtml?faces-redirect=true"
 							 update="@form"
-							 rendered="#{seguridadController.renderizar('ACCESO_CONSULTA_REPRESENTANTES')}" />
+							 rendered="#{seguridadController.renderizar('CONSULTOR')}" />
 			<p:commandButton value="Clientes Registrados" styleClass="#{seguridadController.estaSeleccionado('/actualizarRepresentante.xhtml')? 'activo':''}"
 							 action="/clienteConsulta.xhtml?faces-redirect=true"
 							 update="@form"
-							 rendered="#{seguridadController.renderizar('ACCESO_operaciones_ACTUALIZAR_REPRESENTANTE')}" />
+							 rendered="#{seguridadController.renderizar('CONSULTOR')}" />
 		</div>
 
 	</h:form>

@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 
 public enum TipoEstado {
-    APROBADA, RECHAZADA, PENDIENTE, COMPLETADA
+    APROBADA, RECHAZADA, PROCESADA, REGISTRADA, COMPLETADA
 }

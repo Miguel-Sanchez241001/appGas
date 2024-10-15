@@ -15,12 +15,21 @@ public class ClienteRepository {
     @PersistenceContext(unitName = "perciPOSTGREL")
     private EntityManager entityManager;
 
+
     // Método para crear un nuevo cliente
     @Transactional
     public void crearCliente(Cliente cliente) {
         entityManager.persist(cliente);
     }
-
+    public Cliente buscarPorDni(String dni) {
+        try {
+            return entityManager.createQuery("SELECT c FROM Cliente c WHERE c.dni = :dni", Cliente.class)
+                    .setParameter("dni", dni)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null; // Retorna null si no se encuentra el cliente o ocurre algún error
+        }
+    }
     // Método para obtener un cliente por ID
     public Optional<Cliente> obtenerClientePorId(Long id) {
         Cliente cliente = entityManager.find(Cliente.class, id);

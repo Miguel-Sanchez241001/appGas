@@ -66,6 +66,8 @@ public class ClienteController implements Serializable {
         }
         PrimeFaces.current().ajax().update( "nextBtnCliente");
      }
+
+
     public void registrarCliente() {
         try {
             // Crear entidad Cliente a partir del modelo

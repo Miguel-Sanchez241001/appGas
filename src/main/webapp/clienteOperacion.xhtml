@@ -52,26 +52,27 @@
                         <p:panel header="Detalles Personales">
 
                             <h:panelGrid columns="2" columnClasses="label, value" style="width: 70%; text-align: left;">
-                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="dni" value="DNI:  "/>
-                                 <p:inputMask id="dni" mask="99999999" value="#{clienteController.clienteModel.dni}" required="true"
+
+                                 <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="dni" value="DNI:  " />
+                                <p:inputMask id="dni" mask="99999999" value="#{clienteController.clienteModel.dni}"
+                                             required="true" requiredMessage="El DNI es obligatorio"
                                              validatorMessage="El DNI debe tener 8 dígitos">
-
-
-                                    <p:ajax event="blur" listener="#{clienteController.verificarDni}" update="messages, nextBtn"/>
-
+                                    <p:ajax event="blur" listener="#{clienteController.verificarDni}" update="messages, nextBtn" />
                                 </p:inputMask>
 
-                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="nombre" value="Nombre:  "/>
-                                <p:inputText id="nombre" value="#{clienteController.clienteModel.nombre}" required="true" label="Nombre"
-                                             validatorMessage="El nombre es requerido"/>
+                                 <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="nombre" value="Nombre:  " />
+                                <p:inputText id="nombre" value="#{clienteController.clienteModel.nombre}" required="true"
+                                             label="Nombre" requiredMessage="El nombre es obligatorio"
+                                             validatorMessage="El nombre es requerido" />
 
-                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="apellidos" value="Apellidos: "/>
-                                <p:inputText id="apellidos" value="#{clienteController.clienteModel.apellidos}" required="true" label="Apellidos"
-                                             validatorMessage="Los apellidos son requeridos"/>
+                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="apellidos" value="Apellidos: " />
+                                <p:inputText id="apellidos" value="#{clienteController.clienteModel.apellidos}" required="true"
+                                             label="Apellidos" requiredMessage="Los apellidos son obligatorios"
+                                             validatorMessage="Los apellidos son requeridos" />
 
-                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="correo" value="Correo Electrónico:  "/>
-
-                                <p:inputText id="correo" value="#{clienteController.clienteModel.correo}" required="true" label="Correo"
+                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="correo" value="Correo Electrónico:  " />
+                                <p:inputText id="correo" value="#{clienteController.clienteModel.correo}" required="true"
+                                             label="Correo" requiredMessage="El correo electrónico es obligatorio"
                                              validatorMessage="Correo no válido">
                                     <f:validateRegex pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
                                 </p:inputText>
@@ -83,11 +84,14 @@
                         <p:panel header="Detalles de Dirección">
 
                             <h:panelGrid columns="2" columnClasses="label, value" style="width: 70%; text-align: left;" >
-                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="direccion" value="Dirección: "/>
-                                <p:inputText id="direccion" value="#{clienteController.clienteModel.direccion}" required="true"
-                                             label="Dirección" validatorMessage="La dirección es requerida"/>
-                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;"   for="telefono" value="Teléfono: "/>
-                                <p:inputMask id="telefono" mask="999999999" value="#{clienteController.clienteModel.telefono}" required="true"
+                                <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="direccion" value="Dirección: " />
+                                <p:inputText id="direccion" value="#{clienteController.clienteModel.direccion}"
+                                             required="true" requiredMessage="La dirección es obligatoria"
+                                             label="Dirección" validatorMessage="La dirección es requerida" />
+
+                                 <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="telefono" value="Teléfono: " />
+                                <p:inputMask id="telefono" mask="999999999" value="#{clienteController.clienteModel.telefono}"
+                                             required="true" requiredMessage="El teléfono es obligatorio"
                                              validatorMessage="El teléfono debe tener 9 dígitos y comenzar con 9">
                                     <f:validateRegex pattern="9[0-9]{8}" />
                                 </p:inputMask>

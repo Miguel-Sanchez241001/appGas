@@ -12,18 +12,26 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 @ApplicationScoped
-public class InMemoryIdentityStore implements IdentityStore {
+public class CustomIdentityStore implements IdentityStore {
 
-    private static final Logger logger = LogManager.getLogger(InMemoryIdentityStore.class);
+    private static final Logger logger = LogManager.getLogger(CustomIdentityStore.class);
 
     private Map<String, String> users = new HashMap<>();
     private Map<String, Set<String>> roles = new HashMap<>();
 
-    public InMemoryIdentityStore() {
-        logger.info("[InMemoryIdentityStore] - Constructor llamado");
-        // Agrega usuarios y roles
-        users.put("admin", "admin123");
-        roles.put("admin", Set.of("ADMIN"));
+    public CustomIdentityStore() {
+
+
+            // Definir usuarios y contraseñas
+            users.put("admin", "admin123");
+            users.put("operador", "operador123");
+            users.put("consultor", "consultor123");
+
+            // Definir roles para cada usuario
+            roles.put("admin", Set.of("ADMIN"));
+            roles.put("operador", Set.of("OPERADOR"));
+            roles.put("consultor", Set.of("CONSULTOR"));
+
     }
 
     @Override

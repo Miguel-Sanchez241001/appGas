@@ -10,11 +10,15 @@ import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.PrimeFaces;
+import org.primefaces.util.LangUtils;
+import pe.com.app.appgaspedidos.repository.model.Cliente;
 import pe.com.app.appgaspedidos.security.Usuario;
 import pe.com.app.appgaspedidos.service.ClienteService;
 import pe.com.app.appgaspedidos.view.model.ClienteModel;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Locale;
 
 @Named
 @ViewScoped
@@ -32,7 +36,10 @@ public class ClienteConsultaController  implements Serializable {
     @PostConstruct
     public void init() {
         clienteModel = new ClienteModel();
+        clienteService.insertarClientesSiVacia();
+
         clienteModel.setClientes(clienteService.obtenerTodosLosClientes());
+
     }
 
     public void guardarCLiente(){
@@ -56,6 +63,22 @@ public class ClienteConsultaController  implements Serializable {
 
 
         PrimeFaces.current().ajax().update(  "formConsultaCliente");
+    }
+    public boolean globalFilterFunction(Object value, Object filter, Locale locale) {
+        String filterText = (filter == null) ? null : filter.toString().trim().toLowerCase();
+        if (LangUtils.isBlank(filterText)) {
+            return true;
+        }
+
+        Cliente cliente = (Cliente) value;
+
+        // Filtrar por diferentes campos del cliente
+        return cliente.getNombre().toLowerCase().contains(filterText)
+                || cliente.getApellidos().toLowerCase().contains(filterText)
+                || cliente.getDni().toLowerCase().contains(filterText)
+                || (cliente.getDireccion() != null && cliente.getDireccion().toLowerCase().contains(filterText))
+                || (cliente.getCorreo() != null && cliente.getCorreo().toLowerCase().contains(filterText))
+                || cliente.getTelefono().contains(filterText);  // Filtrar por teléfono también
     }
 
 }

@@ -7,7 +7,98 @@
 
     <ui:define name="metadata"/>
     <ui:define name="content">
+
+        <h:outputStylesheet>
+
+            .ui-corner-all {
+                background-color: #f0f0f0 !important; /* Color de fondo al pasar el mouse */
+                color: #000000 !important;
+            }
+        </h:outputStylesheet>
         <h2>Registro de Solicitudes</h2>
+        <h:form id="formRegistroSolicitud">
+            <p:wizard flowListener="#{solicitudConsultaController.onFlowProcess}" nextLabel="Siguiente" backLabel="Atrás"
+                      widgetVar="wizardSolicutdWidget">
+
+                <!-- Primera pestaña: Información del cliente -->
+                <p:tab id="cliente" title="Información del Cliente">
+                    <p:panel header="Detalles del Cliente">
+                        <h:panelGrid id="panelCliente" columns="3" columnClasses="label, value" style="width: 50%;height: 200px; text-align: left;">
+                            <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="dni" value="DNI: "/>
+                            <p:inputMask id="dni" mask="99999999" value="#{solicitudConsultaController.solicitudModel.dni}"
+                                         required="true" validatorMessage="El DNI debe tener 8 dígitos">
+                             </p:inputMask>
+
+                            <p:commandButton value="Buscar"
+                                             actionListener="#{solicitudConsultaController.buscarClientePorDni}"
+                                             update="panelCliente"
+                                             icon="pi pi-search"
+                                             styleClass="ui-button-success" />
+
+                            <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="nombreCompleto" value="Nombre Completo: "/>
+                            <h:outputText id="nombreCompleto" value="#{solicitudConsultaController.solicitudModel.nombreCompleto}" styleClass="outputLabel"/>
+                            <h:outputText   />
+                            <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="Telefono" value="Telefono: "/>
+                            <h:outputText id="Telefono" value="#{solicitudConsultaController.solicitudModel.cliente.telefono}" styleClass="outputLabel"/>
+                            <h:outputText   />
+                            <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="Correo" value="Correo: "/>
+                            <h:outputText id="Correo" value="#{solicitudConsultaController.solicitudModel.cliente.correo}" styleClass="outputLabel"/>
+                            <h:outputText   />
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <!-- Segunda pestaña: Detalles de la solicitud -->
+                <p:tab id="solicitud" title="Detalles de la Solicitud">
+                    <p:panel header="Detalles de la Solicitud">
+                        <h:panelGrid columns="2" columnClasses="label, value" style="width: 50%;height: 200px; text-align: left;">
+                            <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="tipoSolicitud" value="Tipo de Solicitud: "/>
+                            <p:selectOneMenu id="tipoSolicitud" value="#{solicitudConsultaController.solicitudModel.solicitudUpdatenew.tipo}" required="true" style="width: 100%">
+                                <f:selectItems value="#{solicitudConsultaController.solicitudModel.listaTipoSolicitudes}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo}"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="direccionSolicitada" value="Dirección: "/>
+                            <p:inputText id="direccionSolicitada" value="#{solicitudConsultaController.solicitudModel.direccionSolicitada}" required="true" validatorMessage="La dirección es requerida"/>
+
+                            <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="observaciones" value="Observaciones: "/>
+                            <p:inputTextarea id="observaciones" value="#{solicitudConsultaController.solicitudModel.observaciones}" rows="4" cols="30" maxlength="255"/>
+                        </h:panelGrid>
+                    </p:panel>
+                </p:tab>
+
+                <!-- Tercera pestaña: Confirmación -->
+                <p:tab id="confirm" title="Confirmación">
+                    <p:panel header="Confirmación de la Solicitud">
+                        <h:panelGrid columns="2" columnClasses="label, value" style="width: 25%;height: 200px; text-align: left;">
+                            <h:outputText value="Nombre Completo: "/>
+                            <h:outputText value="#{solicitudConsultaController.solicitudModel.nombreCompleto}" styleClass="outputLabel"/>
+
+                            <h:outputText value="DNI: "/>
+                            <h:outputText value="#{solicitudConsultaController.solicitudModel.dni}" styleClass="outputLabel"/>
+
+                            <h:outputText value="Tipo de Solicitud: "/>
+                            <h:outputText value="#{solicitudConsultaController.solicitudModel.solicitudUpdatenew.tipo}" styleClass="outputLabel"/>
+
+                            <h:outputText value="Dirección: "/>
+                            <h:outputText value="#{solicitudConsultaController.solicitudModel.direccionSolicitada}" styleClass="outputLabel"/>
+
+                            <h:outputText value="Observaciones: "/>
+                            <h:outputText value="#{solicitudConsultaController.solicitudModel.observaciones}" styleClass="outputLabel"/>
+                        </h:panelGrid>
+
+                        <p:commandButton id="guardarBtn" value="Registrar Solicitud"
+                                         action="#{solicitudConsultaController.registrarSolicitud}"
+                                         update="messages" process="@this" disabled="#{solicitudConsultaController.solicitudModel.nombreCompleto == null}"/>
+                    </p:panel>
+                </p:tab>
+
+            </p:wizard>
+            <div class="dashed"></div>
+            <div class="nota">
+                <span>NOTA : * DATOS OBLIGATORIOS</span>
+            </div>
+
+        </h:form>
 
 
     </ui:define>

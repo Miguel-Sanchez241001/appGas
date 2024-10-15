@@ -17,9 +17,12 @@ public class SolicitudRepository {
     private EntityManager entityManager;
 
     @Transactional
-    public void guardar(Solicitud solicitud) {
+    public Long guardar(Solicitud solicitud) {
         entityManager.persist(solicitud);
+        entityManager.flush(); // Asegura que la solicitud se ha guardado y el ID se ha generado
+        return solicitud.getId(); // Devuelve el ID de la solicitud generada
     }
+
 
     public Solicitud buscarPorId(Long id) {
         return entityManager.find(Solicitud.class, id);

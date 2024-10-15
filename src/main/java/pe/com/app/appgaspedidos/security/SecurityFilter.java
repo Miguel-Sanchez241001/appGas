@@ -1,4 +1,4 @@
-package pe.com.app.appgaspedidos.config;
+package pe.com.app.appgaspedidos.security;
 
 import jakarta.inject.Inject;
 import jakarta.servlet.*;
@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pe.com.app.appgaspedidos.security.Usuario;
 
 @WebFilter("/*")
 public class SecurityFilter implements Filter {

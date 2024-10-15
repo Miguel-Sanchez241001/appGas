@@ -51,14 +51,16 @@
                              electionMode="single"
                               value="#{clienteConsultaController.clienteModel.clientes}"
                              selection="#{clienteConsultaController.clienteModel.seleccionadoCliente}"
-                             emptyMessage="No hay clientes afiliados/desafiliados"
+                             emptyMessage="No hay clientes registrados"
+                             filteredValue="#{clienteConsultaController.clienteModel.clientesFiltrados}"
+                             globalFilterFunction="#{clienteConsultaController.globalFilterFunction}">
                              style="width: 100%; font-size: 10px;">
 
                     <f:facet name="header">
                         <div class="products-table-header">
                             <span style="font-weight: bold">Clientes</span>
                             <span class="filter-container ui-input-icon-left"> <i class="pi pi-search" style="color: black;"></i>
-                        <p:inputText id="globalFilter" onkeyup="PF('dtClientes').filter()" placeholder="Search" />
+                       <p:inputText  id="globalFilter" onkeyup="PF('dtClientes').filter()" placeholder="Search" />
                     </span>
                         </div>
                     </f:facet>
@@ -115,41 +117,50 @@
         <h:form id="dialogs">
             <p:dialog header="Cliente Detalle" showEffect="fade" modal="true" widgetVar="manageClienteDialog"
                       responsive="true">
-                <p:outputPanel id="manage-cliente-content" class="ui-fluid">
+                <p:outputPanel id="manage-cliente-content" >
                 <p:outputPanel rendered="#{not empty clienteConsultaController.clienteModel.seleccionadoCliente}">
 
-                    <div class="field">
-                        <p:outputLabel for="nombre" value="Nombre" />
-                        <p:inputText id="nombre" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.nombre}" required="true" />
-                    </div>
+                    <p:panelGrid columns="2" columnClasses="label, value" style="width: 450px; padding: 10px; text-align: left;">
 
-                    <div class="field">
-                        <p:outputLabel for="apellidos" value="Apellidos" />
-                        <p:inputText id="apellidos" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.apellidos}" required="true" />
-                    </div>
+                        <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="nombre" value="Nombre" />
+                        <p:inputText id="nombre" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.nombre}"
+                                     required="true" requiredMessage="El nombre es obligatorio"
+                                     style="height: 20px; margin: 5px 0px" />
 
-                    <div class="field">
-                        <p:outputLabel for="dni" value="DNI" />
-                        <p:inputText id="dni" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.dni}" maxlength="8" required="true" />
-                    </div>
+                        <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="apellidos" value="Apellidos" />
+                        <p:inputText id="apellidos" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.apellidos}"
+                                     required="true" requiredMessage="Los apellidos son obligatorios"
+                                     style="height: 20px; margin: 5px 0px" />
 
-                    <div class="field">
-                        <p:outputLabel for="direccion" value="Dirección" />
-                        <p:inputTextarea id="direccion" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.direccion}" />
-                    </div>
+                        <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="dni" value="DNI" />
+                        <p:inputMask id="dni" mask="99999999" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.dni}"
+                                     required="true" requiredMessage="El DNI es obligatorio y debe tener 8 dígitos"
+                                     maxlength="8" style="height: 20px; margin: 5px 0px" />
 
-                    <div class="field">
-                        <p:outputLabel for="telefono" value="Teléfono" />
-                        <p:inputText id="telefono" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.telefono}" maxlength="9" />
-                    </div>
+                        <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="direccion" value="Dirección" />
+                        <p:inputTextarea id="direccion" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.direccion}"
+                                         required="true" requiredMessage="La dirección es obligatoria"
+                                         style="height: 60px; margin: 5px 0px" />
 
-                    <div class="field">
-                        <p:outputLabel for="correo" value="Correo Electrónico" />
-                        <p:inputText id="correo" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.correo}" required="true" />
-                    </div>
+                        <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="telefono" value="Teléfono" />
+                        <p:inputMask id="telefono" mask="999999999" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.telefono}"
+                                     required="true" requiredMessage="El teléfono es obligatorio y debe tener 9 dígitos"
+                                     style="height: 20px; margin: 5px 0px" maxlength="9" />
+
+                        <p:outputLabel style="font-size: 16px; color: white; font-weight: bold;" for="correo" value="Correo Electrónico" />
+                        <p:inputText id="correo" value="#{clienteConsultaController.clienteModel.seleccionadoCliente.correo}"
+                                     required="true" requiredMessage="El correo electrónico es obligatorio"
+                                     validatorMessage="Formato de correo no válido"
+                                     style="height: 20px; margin: 5px 0px">
+                            <f:validateRegex pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+                        </p:inputText>
+
+                    </p:panelGrid>
                 </p:outputPanel>
                 </p:outputPanel>
-
+                <p:messages id="messagessubFomr" showDetail="false" closable="true">
+                    <p:autoUpdate/>
+                </p:messages>
                 <f:facet name="footer">
                     <p:commandButton value="Actualizar" icon="pi pi-check" actionListener="#{clienteConsultaController.guardarCLiente}"
                                      update="manage-cliente-content" process="manage-cliente-content @this" />

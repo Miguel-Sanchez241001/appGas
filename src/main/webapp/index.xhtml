@@ -71,6 +71,7 @@
                     <!-- Campo de contraseña -->
                     <p:outputLabel for="password" value="Contraseña: " />
                     <p:password id="password" value="#{loginController.password}" feedback="false" required="true"  styleClass="loginInput" requiredMessage="La contraseña es obligatoria." />
+
             </h:panelGrid>
                     <!-- Botón de login -->
 
@@ -98,7 +99,8 @@
     <p:outputLabel value="Cargando.." style="font-size:12px" />
     <br />
 
-    <p:graphicImage name="/img/ajaxloadingbar.gif" />
+    <p:graphicImage name="/img/ajaxloadingbar.gif" style="width: 100px; height: 100px;" />
+
 </p:dialog>
 </h:body>
 </html>
